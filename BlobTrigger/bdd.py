@@ -14,6 +14,10 @@ config = {
 
 
 def connection():
+    """
+    Permet de se connecter à la base de donnée via les informations
+    présent dans la partie config
+    """
     # Construct connection string
     try:
         conn = mysql.connector.connect(**config)
@@ -31,6 +35,15 @@ def connection():
 
 
 def insert_bdd(title, myblob):
+    """
+    Insert dans la base de donnée les informations voulues :
+        id : Valeur auto-incrémenter (Primary Key)
+        Titre : titre du livre (Primary Key)
+        Infos : Dictionnaire de tous les mots
+                avec le nombre d'apparition
+        Total : Nombre de mots dans le fichier
+        URL_BLOB = url du blob
+    """
     conn, cursor = connection()
     # Drop previous table of same name if one exists
     cursor.execute("DROP TABLE IF EXISTS table_askd;")
