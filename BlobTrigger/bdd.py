@@ -4,12 +4,12 @@ from .listage_livre import listage_livre
 
 # Obtain connection string information from the portal
 config = {
-  'host': 'groupeaskd.mysql.database.azure.com',
-  'user': 'adminaskd@groupeaskd',
-  'password': 'Simplongroupeaskd4',
-  'database': 'table_askd',
+  'host': 'blabla.mysql.database.azure.com',
+  'user': 'blabla@blabla',
+  'password': 'blablapwd',
+  'database': 'table_blalba',
   'client_flags': [mysql.connector.ClientFlag.SSL],
-  'ssl_ca': "BaltimoreCyberTrustRoot.crt.pem"
+  'ssl_ca': "blabla"
 }
 
 
