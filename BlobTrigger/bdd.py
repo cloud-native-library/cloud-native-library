@@ -1,15 +1,17 @@
 import mysql.connector
+import os
 from mysql.connector import errorcode
 from .listage_livre import listage_livre
 
+
 # Obtain connection string information from the portal
 config = {
-  'host': 'blabla.mysql.database.azure.com',
-  'user': 'blabla@blabla',
-  'password': 'blablapwd',
-  'database': 'table_blalba',
-  'client_flags': [mysql.connector.ClientFlag.SSL],
-  'ssl_ca': "blabla"
+    'host': os.environ['host'],
+    'user': os.environ['user'],
+    'password': os.environ['password'],
+    'database': os.environ['database'],
+    'client_flags': [mysql.connector.ClientFlag.SSL],
+    'ssl_ca': os.environ['ssl_ca']
 }
 
 

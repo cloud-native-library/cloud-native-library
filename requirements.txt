@@ -3,11 +3,4 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
-flake8
-importlib-metadata
-mccabe
 mysql-connector
-pycodestyle
-pyflakes
-typing-extensions
-zipp
