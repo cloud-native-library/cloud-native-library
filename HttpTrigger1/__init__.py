@@ -2,7 +2,7 @@ import logging
 import azure.functions as func
 import pathlib
 import mysql.connector
-
+import os
 
 def get_ssl_cert():
     current_path = pathlib.Path(__file__).parent.parent
@@ -13,12 +13,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     # Connect to MySQL
     cnx = mysql.connector.connect(
-        user="adminaskd@groupeaskd", 
-        password='Simplongroupeaskd4', 
-        host="groupeaskd.mysql.database.azure.com", 
+        user= os.environ['user'], 
+        password=os.environ['password'], 
+        host=os.environ['host'], 
         port=3306,
         ssl_ca=get_ssl_cert(),
-        database="table_askd"
+        database=os.environ['database']
     )
     logging.info(cnx)
     # Show databases
