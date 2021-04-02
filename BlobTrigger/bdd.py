@@ -52,14 +52,14 @@ def insert_bdd(title, myblob):
     # print("Finished dropping table (if existed).")
 
     # Create table
-    # cursor.execute(
-    #     """CREATE TABLE table_askd (
-    #         ID serial PRIMARY KEY,
-    #         Titre VARCHAR(255),<
-    #         Infos VARCHAR(255),
-    #         Total INTEGER,
-    #         URL_BLOB VARCHAR(255));""")
-    # print("Finished creating table.")
+    cursor.execute(
+        """CREATE TABLE IF NOT EXISTS table_askd (
+            ID serial PRIMARY KEY,
+            Titre VARCHAR(255) PRIMARY KEY,
+            Infos VARCHAR(255),
+            Total INTEGER,
+            URL_BLOB VARCHAR(255));""")
+    print("Finished creating table.")
 
     # Insert some data into table
     Infos, Total = listage_livre(myblob)
