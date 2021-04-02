@@ -3,4 +3,8 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
+flake8
+mccabe
 mysql-connector
+pycodestyle
+pyflakes

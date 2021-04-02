@@ -1,5 +1,6 @@
 import mysql.connector
 import os
+import logging
 from mysql.connector import errorcode
 from .listage_livre import listage_livre
 
@@ -23,14 +24,13 @@ def connection():
     # Construct connection string
     try:
         conn = mysql.connector.connect(**config)
-        print("Connection established")
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with the user name or password")
+            logging.error("Something is wrong with the user name or password")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
+            logging.error("Database does not exist")
         else:
-            print(err)
+            logging.error(err)
     else:
         cursor = conn.cursor()
         return conn, cursor
@@ -46,12 +46,15 @@ def insert_bdd(title, myblob):
         Total : Nombre de mots dans le fichier
         URL_BLOB = url du blob
     """
+    logging.info("Début de la connexion à la database")
     conn, cursor = connection()
+    logging.info("Connection established")
     # Drop previous table of same name if one exists
     # cursor.execute("DROP TABLE IF EXISTS table_askd;")
-    # print("Finished dropping table (if existed).")
+    # logging.info("Finished dropping table (if existed).")
 
     # Create table
+    logging.info("Début de la création de la table")
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS table_askd (
             ID serial PRIMARY KEY,
@@ -59,18 +62,25 @@ def insert_bdd(title, myblob):
             Infos VARCHAR(255),
             Total INTEGER,
             URL_BLOB VARCHAR(255));""")
-    print("Finished creating table.")
+    logging.info("Finished creating table.")
+
+    # Récupération des infos dans la fonction listage_livre
+    logging.info(f"Récupération des infos sur le livre {title}")
+    Infos, Total = listage_livre(myblob)
+    logging.info(f"Fin de la récupération des infos sur le livre {title}")
 
     # Insert some data into table
-    Infos, Total = listage_livre(myblob)
     url = "https://stockageaskd.blob.core.windows.net/storageblobaskd/"
+    logging.info("Début insertion du livre dans la base")
     cursor.execute("""INSERT INTO table_askd (
         Titre, Infos, Total, URL_BLOB)
         VALUES (%s, %s, %s, %s);""", (title, Infos, Total, url+title))
-    print("Inserted", cursor.rowcount, "row(s) of data.")
+    logging.info("Inserted", cursor.rowcount, "row(s) of data.")
 
     # Cleanup
     conn.commit()
+    logging.info("Commit")
     cursor.close()
     conn.close()
-    print("Done.")
+    logging.info(f"Close {cursor} and {conn}")
+    logging.info("Done.")
