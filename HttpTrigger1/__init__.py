@@ -4,6 +4,7 @@ import pathlib
 import mysql.connector
 
 
+
 def get_ssl_cert():
     current_path = pathlib.Path(__file__).parent.parent
     return str(current_path / 'BaltimoreCyberTrustRoot.crt.pem')

@@ -48,18 +48,18 @@ def insert_bdd(title, myblob):
     """
     conn, cursor = connection()
     # Drop previous table of same name if one exists
-    cursor.execute("DROP TABLE IF EXISTS table_askd;")
-    print("Finished dropping table (if existed).")
+    # cursor.execute("DROP TABLE IF EXISTS table_askd;")
+    # print("Finished dropping table (if existed).")
 
     # Create table
-    cursor.execute(
-        """CREATE TABLE table_askd (
-            ID serial PRIMARY KEY,
-            Titre VARCHAR(255),
-            Infos VARCHAR(255),
-            Total INTEGER,
-            URL_BLOB VARCHAR(255));""")
-    print("Finished creating table.")
+    # cursor.execute(
+    #     """CREATE TABLE table_askd (
+    #         ID serial PRIMARY KEY,
+    #         Titre VARCHAR(255),<
+    #         Infos VARCHAR(255),
+    #         Total INTEGER,
+    #         URL_BLOB VARCHAR(255));""")
+    # print("Finished creating table.")
 
     # Insert some data into table
     Infos, Total = listage_livre(myblob)
