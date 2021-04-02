@@ -1,6 +1,7 @@
 import logging
 import azure.functions as func
 import mysql.connector
+import os
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
