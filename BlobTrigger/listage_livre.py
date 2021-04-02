@@ -1,3 +1,4 @@
+import logging
 import re
 import json
 import unicodedata
@@ -15,15 +16,20 @@ def listage_livre(myblob):
 
     # Lecture de l'objet myblob
     file = myblob.read()
+    logging.info(f"Lecture de l'objet {myblob}")
 
     # Décodage du blob pour permettre son traitement
     file = codecs.decode(file, 'latin-1')
+    logging.info("Décodage du blob en latin-1 pour traitement")
 
     # Split avec regex sur tous les signes de ponctuation
     file = re.split(r'\W', file)
+    logging.info("Retrait des signes de ponctuations dans le fichier")
 
     # Compte le nombre de mot dans le fichier
     total = len(file)
+    logging.info("Calcul du nombre de mot dans le fichier")
+    logging.info(total)
 
     # Pour chaque mot dans le fichier
     for char in file:
@@ -35,10 +41,14 @@ def listage_livre(myblob):
                 if unicodedata.category(c) != 'Mn')
                 )
         liste.append(char)
-    for char in liste:
-        # Pour chaque mot, compte le nombre de fois qu'il apparait
-        res[char] = liste.count(char)
+    logging.info("Mise en minuscule de chaque mot")
+    logging.info("Retrait des accents dans les mots")
 
-    print(res)
-    print("Nombre de mot :", total)
+    # Pour chaque mot dans la liste:
+    for char in liste:
+        # Compte le nombre de fois qu'il apparait pour mettre en format dict
+        res[char] = liste.count(char)
+    logging.info(res)
+
+    # Return le nombre total de mot + le dictionnaire
     return json.dumps(res), total

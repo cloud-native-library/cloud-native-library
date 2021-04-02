@@ -17,12 +17,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         database=os.environ['database']
     )
     logging.info(cnx)
-
     # Show databases
     cursor = cnx.cursor()
-    cursor.execute("""SELECT Titre from table_askd""")
+    cursor.execute("""SELECT ID,Titre,Infos,URL_BLOB from table_askd""")
     result_list = cursor.fetchall()
-
     # Build result response text
     result_str_list = []
     for row in result_list:

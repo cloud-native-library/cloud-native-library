@@ -5,6 +5,6 @@
 azure-functions
 flake8
 mccabe
-mysql-connector
+mysql-connector-python
 pycodestyle
 pyflakes

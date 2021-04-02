@@ -40,7 +40,7 @@ def insert_bdd(title, myblob):
     """
     Insert dans la base de donnée les informations voulues :
         id : Valeur auto-incrémenter (Primary Key)
-        Titre : titre du livre (Primary Key)
+        Titre : titre du livre
         Infos : Dictionnaire de tous les mots
                 avec le nombre d'apparition
         Total : Nombre de mots dans le fichier
@@ -58,7 +58,7 @@ def insert_bdd(title, myblob):
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS table_askd (
             ID serial PRIMARY KEY,
-            Titre VARCHAR(255) PRIMARY KEY,
+            Titre VARCHAR(255),
             Infos VARCHAR(255),
             Total INTEGER,
             URL_BLOB VARCHAR(255));""")
@@ -75,12 +75,12 @@ def insert_bdd(title, myblob):
     cursor.execute("""INSERT INTO table_askd (
         Titre, Infos, Total, URL_BLOB)
         VALUES (%s, %s, %s, %s);""", (title, Infos, Total, url+title))
-    logging.info("Inserted", cursor.rowcount, "row(s) of data.")
+    logging.info("Inserted done")
 
     # Cleanup
     conn.commit()
     logging.info("Commit")
     cursor.close()
     conn.close()
-    logging.info(f"Close {cursor} and {conn}")
+    logging.info("Close Database")
     logging.info("Done.")
