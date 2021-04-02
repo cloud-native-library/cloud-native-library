@@ -5,7 +5,7 @@ import azure.functions as func
 
 def main(myblob: func.InputStream):
     """
-    Est déclanchée lorsqu'un fichier est uploader dans le conteneur.
+    Est déclenchée lorsqu'un fichier est uploader dans le conteneur.
     Permet de remplir une base de donnée grâce à la fonction insert_bdd
     --------------------------------------------------------------------------
     insert_bdd(titre, myblob)
@@ -21,3 +21,5 @@ def main(myblob: func.InputStream):
 
     # Appel de la fonction insert_bdd
     insert_bdd(titre, myblob)
+
+

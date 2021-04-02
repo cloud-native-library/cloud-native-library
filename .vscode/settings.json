@@ -1,5 +1,4 @@
 {
-    "python.pythonPath": "c:\\Users\\utilisateur\\Desktop\\Simplon\\Repo_Git\\cloud-native-library\\.venv\\Scripts\\python.exe",
     "azureFunctions.deploySubpath": ".",
     "azureFunctions.scmDoBuildDuringDeployment": true,
     "azureFunctions.pythonVenv": ".venv",

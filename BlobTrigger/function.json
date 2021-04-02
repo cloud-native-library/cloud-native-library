@@ -9,5 +9,5 @@
       "connection": "stockageaskd_STORAGE"
     }
   ],
-  "disabled": false
+  "disabled": true
 }
