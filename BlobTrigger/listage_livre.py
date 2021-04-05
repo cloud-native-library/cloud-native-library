@@ -1,6 +1,5 @@
 import logging
 import re
-import json
 import unicodedata
 import codecs
 
@@ -19,8 +18,8 @@ def listage_livre(myblob):
     logging.info(f"Lecture de l'objet {myblob}")
 
     # Décodage du blob pour permettre son traitement
-    file = codecs.decode(file, 'latin-1')
-    logging.info("Décodage du blob en latin-1 pour traitement")
+    file = codecs.decode(file, 'utf-8')
+    logging.info("Décodage du blob en utf-8 pour traitement")
 
     # Split avec regex sur tous les signes de ponctuation
     file = re.split(r'\W', file)
@@ -51,4 +50,4 @@ def listage_livre(myblob):
     logging.info(res)
 
     # Return le nombre total de mot + le dictionnaire
-    return json.dumps(res), total
+    return res, total

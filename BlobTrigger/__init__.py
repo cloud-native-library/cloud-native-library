@@ -17,8 +17,8 @@ def main(myblob: func.InputStream):
                  f"Blob Size: {myblob.length} bytes")
 
     # Garde juste le nom du fichier
-    titre = myblob.name.split("/")[-1]
-    logging.info(f"nom du fichier : {titre}")
+    titre = myblob.name.split("/")[-1].split(".")[0]
+    logging.info(f"Nom du fichier : {titre}")
 
     # Appel de la fonction insert_bdd
     logging.info("Appel de la fonction insert_bdd")
