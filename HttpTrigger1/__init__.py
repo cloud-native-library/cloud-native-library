@@ -16,20 +16,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         ssl_ca=os.environ['ssl_ca'],
         database=os.environ['database']
     )
+
     logging.info(cnx)
 
     # Show databases
     cursor = cnx.cursor()
     cursor.execute("""SELECT Titre from livres""")
-    result_list = cursor.fetchall()
-
-    # Build result response text
-    result_str_list = []
-    for row in result_list:
-        row_str = ', '.join([str(v) for v in row])
-        result_str_list.append(row_str)
-    result_str = '\n'.join(result_str_list)
-    return func.HttpResponse(
-        result_str,
-        status_code=200
-    )
+    result = []
+    for row in cursor.fetchall():
+        row = ', '.join([str(v) for v in row])
+        result.append(row)
+        
+    return func.HttpResponse("\n".join(result), status_code=200)
