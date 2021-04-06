@@ -40,12 +40,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             row = ', '.join([str(v) for v in row])
             result.append(row)
 
-        # cursor.execute(
-        #     """SELECT Words, Total from mots WHERE Titre = %s;""",
-        #     (title,))
-        # for row in cursor.fetchall():
-        #     row = ', '.join([str(v) for v in row])
-        #     result.append(row)
+        cursor.execute(
+            """SELECT Words, Total from mots WHERE Titre = %s;""",
+            (title,))
+        for row in cursor.fetchall():
+            row = ', '.join([str(v) for v in row])
+            result.append(row)
 
         return func.HttpResponse("\n".join(result), status_code=200)
 

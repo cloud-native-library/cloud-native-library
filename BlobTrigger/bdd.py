@@ -72,27 +72,29 @@ def insert_bdd(title, myblob):
 
     # Create table
     logging.info("Début de la création de la table")
-    create_table(cursor)
-    logging.info("Finished creating table.")
 
     # Récupération des infos dans la fonction listage_livre
     logging.info(f"Récupération des infos sur le livre {title}")
     Infos, Total = listage_livre(myblob)
     logging.info(f"Fin de la récupération des infos sur le livre {title}")
 
+
     # Insert some data into table
     url = "https://stockageaskd.blob.core.windows.net/storageblobaskd/"
+
     logging.info("Début insertion du livre dans la table 'livres'")
+
     cursor.execute("""INSERT INTO livres (
         Titre, Total, URL_BLOB)
         VALUES (%s, %s, %s);""", (title, Total, url+title+".txt"))
     logging.info("Inserted done")
 
     logging.info("Début insertion du livre dans la table 'mots'")
-    for cle, valeur in Infos.items():
+    for key, value in Infos.items():
         cursor.execute("""INSERT INTO mots (
-        Titre, Words, Total)
-        VALUES (%s, %s, %s);""", (title, cle, valeur))
+            Titre, Words, Total)
+            VALUES (%s, %s, %s);""", (title, key, value))
+
     logging.info("Inserted done")
 
     # Cleanup
@@ -102,3 +104,4 @@ def insert_bdd(title, myblob):
     conn.close()
     logging.info("Close Database")
     logging.info("Done.")
+

@@ -26,5 +26,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     for row in cursor.fetchall():
         row = ', '.join([str(v) for v in row])
         result.append(row)
-
+        
     return func.HttpResponse("\n".join(result), status_code=200)
