@@ -1,6 +1,5 @@
 import logging
 import re
-import json
 import unicodedata
 import codecs
 
@@ -51,4 +50,4 @@ def listage_livre(myblob):
     logging.info(res)
 
     # Return le nombre total de mot + le dictionnaire
-    return json.dumps(res), total
+    return res, total

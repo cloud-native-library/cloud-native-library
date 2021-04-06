@@ -60,23 +60,22 @@ def insert_bdd(title, myblob):
             ID INTEGER AUTO_INCREMENT PRIMARY KEY,
             Titre VARCHAR(255),
             Total INTEGER,
-            URL_BLOB VARCHAR(255)
+            URL_BLOB VARCHAR(255),
             UNIQUE KEY (Titre));""")
-    logging.info("Finished creating table.")
 
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS mots (
             ID INTEGER AUTO_INCREMENT PRIMARY KEY,
             Titre VARCHAR(255),
             Words VARCHAR(255),
-            Total INTEGER,
-            UNIQUE KEY (Titre));""")
-    logging.info("Finished creating table.")
+            Total INTEGER);""")
+    logging.info("Finished creating tables.")
 
     # Récupération des infos dans la fonction listage_livre
     logging.info(f"Récupération des infos sur le livre {title}")
     Infos, Total = listage_livre(myblob)
     logging.info(f"Fin de la récupération des infos sur le livre {title}")
+
 
     # Insert some data into table
     url = "https://stockageaskd.blob.core.windows.net/storageblobaskd/"
@@ -87,9 +86,15 @@ def insert_bdd(title, myblob):
     logging.info("Inserted done")
 
     logging.info("Début insertion de mots dans la base")
-    cursor.execute("""INSERT INTO mots (
-        Titre, Words, Total)
-        VALUES (%s, %s, %s);""", (title, Words, Total))
+    for key, value in Infos.items():
+
+        cursor.execute("""INSERT INTO mots (
+            Titre, Words, Total)
+            VALUES (%s, %s, %s);""", (title, key, value))
+    
+
+
+
     logging.info("Inserted done")
 
     # Cleanup
@@ -99,3 +104,4 @@ def insert_bdd(title, myblob):
     conn.close()
     logging.info("Close Database")
     logging.info("Done.")
+
