@@ -20,7 +20,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     # Show databases
     cursor = cnx.cursor()
-    cursor.execute("""SELECT Titre from table_askd""")
+    cursor.execute("""SELECT Titre from livres""")
     result_list = cursor.fetchall()
 
     # Build result response text
