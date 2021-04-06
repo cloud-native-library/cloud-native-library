@@ -82,7 +82,7 @@ def insert_bdd(title, myblob):
     logging.info("Début insertion de livres dans la base")
     cursor.execute("""INSERT INTO livres (
         Titre, Total, URL_BLOB)
-        VALUES (%s, %s, %s);""", (title, Total, url+title))
+        VALUES (%s, %s, %s);""", (title, Total, url+title+".txt"))
     logging.info("Inserted done")
 
     logging.info("Début insertion de mots dans la base")
