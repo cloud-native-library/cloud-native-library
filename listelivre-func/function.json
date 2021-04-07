@@ -9,8 +9,8 @@
       "methods": [
         "get",
         "post"
-      ]
-    
+      ],
+      "route": "listelivre"
     },
     {
       "type": "http",

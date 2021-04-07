@@ -34,3 +34,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     return func.HttpResponse(jinja2_nico(),status_code=200,mimetype="text/html")
+
+
