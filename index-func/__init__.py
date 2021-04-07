@@ -1,32 +1,36 @@
 import logging
+import mysql.connector
 import azure.functions as func
-import mimetypes
+import os
+from jinja2 import Template
+
+
+def jinja2_nico():
+            # Connect to MySQL
+    cnx = mysql.connector.connect(
+        user=os.environ['user'],
+        password=os.environ['password'],
+        host=os.environ['host'],
+        port=3306,
+        ssl_ca=os.environ['ssl_ca'],
+        database=os.environ['database'])
+    logging.info(cnx)
+
+    cursor = cnx.cursor()
+    cursor.execute("""SELECT Titre from livres""")
+    result = []
+    for row in cursor.fetchall():
+        row = ', '.join([str(v) for v in row])
+        result.append(row)
+
+    with open('hello.html') as f :
+        template=Template(f.read())
+    livres = template.render(result=result)
+    return livres
+
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+
     logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
-
-    if name:
-        #return func.HttpResponse(f"Hello {name}!")
-        path = 'index-func' # or other paths under `MyFunctionProj`
-        filename = f"{path}/{name}"
-        with open(filename, 'rb') as f:
-            mimetype = mimetypes.guess_type(filename)
-            return func.HttpResponse(f.read(), mimetype=mimetype[0])
-    else:
-        
-        path = 'index-func' # or other paths under `MyFunctionProj`
-        filename = f"{path}/{'index.html'}"
-        with open(filename, 'rb') as f:
-            mimetype = mimetypes.guess_type(filename)
-            return func.HttpResponse(f.read(), mimetype=mimetype[0])
-            "Please pass a name on the query string or in the request body",
-            status_code=400
+    return func.HttpResponse(jinja2_nico(),status_code=200,mimetype="text/html")
