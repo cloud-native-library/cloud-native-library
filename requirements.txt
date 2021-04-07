@@ -8,3 +8,4 @@ mccabe
 mysql-connector-python
 pycodestyle
 pyflakes
+Jinja2
