@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,9 +12,31 @@
     </style>
   </head>
   <body>
+    <label> livre nom:</label>
+    <input type="text" id="searchid" oninput="search()">
+
+        <script>
+          function search(){
+          var boxs = document.getElementsByName("boxs");
+          var search = document.getElementById("searchid").value;
+          console.log(search);
+  
+          for (var box of boxs ){
+            
+
+            if (box.id.includes(search)){
+                box.style.display="block";
+                                        }
+            else  {
+
+                box.style.display="none";
+                  }
+                                }
+                            }
+        </script>
       <ul>
         {%for livre in result%}
-        <li><a href="http://localhost:7071/HttpTrigger2?title={{livre}}">{{livre}}</a></li>
+        <li name="boxs" id="{{livre}}"><a href="http://localhost:7071/HttpTrigger2?title={{livre}}">{{livre}}</a></li>
         {%endfor%}
       </ul>
   </body>
