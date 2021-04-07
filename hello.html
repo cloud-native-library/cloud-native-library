@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liste de livre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+      .container {
+        max-width: 500px;
+        padding-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+      <ul>
+        {%for livre in result%}
+        <li><a href="http://localhost:7071/HttpTrigger2?title={{livre}}">{{livre}}</a></li>
+        {%endfor%}
+      </ul>
+  </body>
+</html>
