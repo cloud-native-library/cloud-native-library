@@ -17,26 +17,27 @@
 
         <script>
           function search(){
-          var boxs = document.getElementsByName("boxs");
+          var boxs = document.getElementsByName("box_livre");
           var search = document.getElementById("searchid").value;
           console.log(search);
   
           for (var box of boxs ){
-            
 
-            if (box.id.includes(search)){
+            //if (box.id.includes(search))
+            if(box.id.toLowerCase().includes(search.toLowerCase())){
+
                 box.style.display="block";
                                         }
-            else  {
+            else{
 
                 box.style.display="none";
-                  }
+                }
                                 }
                             }
         </script>
       <ul>
         {%for livre in result%}
-        <li name="boxs" id="{{livre}}"><a href="http://localhost:7071/HttpTrigger2?title={{livre}}">{{livre}}</a></li>
+        <li name="box_livre" id="{{livre}}"><a href="http://localhost:7071/HttpTrigger2?title={{livre}}">{{livre}}</a></li>
         {%endfor%}
       </ul>
   </body>
