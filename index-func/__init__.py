@@ -23,7 +23,7 @@ def jinja2_nico():
         row = ', '.join([str(v) for v in row])
         result.append(row)
 
-    with open('hello.html') as f :
+    with open('livres.html') as f :
         template=Template(f.read())
     livres = template.render(result=result)
     return livres
