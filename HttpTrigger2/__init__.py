@@ -1,47 +1,6 @@
 import logging
 import azure.functions as func
-import mysql.connector
-import os
-from jinja2 import Template
-
-
-def info_book(title):
-    cnx= mysql.connector.connect(
-        user=os.environ['user'],
-        password=os.environ['password'],
-        host=os.environ['host'],
-        port=3306,
-        ssl_ca=os.environ['ssl_ca'],
-        database=os.environ['database']
-    )
-
-    cursor = cnx.cursor()
-    result=[]
-
-    # cursor.execute(
-    # "SELECT Titre, Total, URL_BLOB from livres WHERE Titre = %s;",
-    #     (title,))
-    # for row in cursor.fetchall():
-    #     row = ', '.join([str(v) for v in row])
-    #     result2.append(row)
-
-
-    cursor.execute(
-    "SELECT Words, Total from mots WHERE Titre = %s;",
-    (title,))
-    for row in cursor.fetchall():
-        row = ', '.join([str(v) for v in row])
-        result.append(row) 
-    return result
-
-
-def jinja_info(title):
-    title = title
-    result= info_book(title)
-    with open('trigger2.html') as f :
-        template=Template(f.read())
-    livres = template.render(result=result, title=title)
-    return livres
+from .jinja_info import jinja_info
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
