@@ -4,7 +4,9 @@ import mysql.connector
 import os
 from jinja2 import Template
 
-cnx = mysql.connector.connect(
+
+def info_book(title):
+    cnx= mysql.connector.connect(
         user=os.environ['user'],
         password=os.environ['password'],
         host=os.environ['host'],
@@ -13,19 +15,24 @@ cnx = mysql.connector.connect(
         database=os.environ['database']
     )
 
-cursor = cnx.cursor()
-
-
-def info_book(title):
-    cursor.execute(
-    """SELECT Words, Total from mots WHERE Titre = %s;""",
-    (title,))
+    cursor = cnx.cursor()
     result=[]
+
+    # cursor.execute(
+    # "SELECT Titre, Total, URL_BLOB from livres WHERE Titre = %s;",
+    #     (title,))
+    # for row in cursor.fetchall():
+    #     row = ', '.join([str(v) for v in row])
+    #     result2.append(row)
+
+
+    cursor.execute(
+    "SELECT Words, Total from mots WHERE Titre = %s;",
+    (title,))
     for row in cursor.fetchall():
         row = ', '.join([str(v) for v in row])
-        result.append(row)
-    return row
-
+        result.append(row) 
+    return result
 
 
 def jinja_info(title):
@@ -49,28 +56,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             title = req_body.get('title')
 
     if title:
-        # Connect to MySQL
-      
-
-        logging.info(cnx)
-
-        # cursor.execute(
-        #     "SELECT Titre, Total, URL_BLOB from livres WHERE Titre = %s;",
-        #     (title,))
-        # for row in cursor.fetchall():
-        #     row = ', '.join([str(v) for v in row])
-        #     result.append(row)
-
-        # cursor.execute(
-        #     "SELECT Words, Total from mots WHERE Titre = %s;",
-        #     (title,))
-        # for row in cursor.fetchall():
-        #     row = ', '.join([str(v) for v in row])
-        #     result.append(row)
-        # return result   
-
-        
-
 
         return func.HttpResponse(jinja_info(title), status_code=200,mimetype="text/html")
     else:
