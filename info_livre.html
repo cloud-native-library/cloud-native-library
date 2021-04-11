@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th ,a{
+  border: 2px solid rgb(99, 52, 50);
+  border-collapse: collapse;
+}
+td{
+  border-bottom: 2px solid rgb(99, 52, 50);
+}
+.right{
+  border-left: 2px solid rgb(99, 52, 50);
+}
+</style>
+</head>
+
+<body>
+<table style="width:15%">
+  {%for info in result1%}
+    {%for element in info.split(',')%}
+      <th>{{element}}</th>
+      {%endfor%}
+  {%endfor%}
+    <tr>
+      <th>mots</th>
+      <th>recurrence</th> 
+    </tr>        
+      {%for info in result %}         
+      <td>
+          <script>
+              var x = '{{info}}'; 
+              var arr = x.split(',');
+              document.write(arr[0]+ "<br>");
+          </script>
+      </td>
+      <td class="right">
+          <script>
+              var x = '{{info}}'; 
+              var arr = x.split(',');
+              document.write(arr[1]);
+              document.write("<tbody></tbody");
+          </script>          
+      </td>      
+      {%endfor%}
+    </tr>
+</table>
+</body>
+</html>

@@ -1,6 +1,7 @@
+import logging
 import mysql.connector
 import os
-import logging
+import sys
 from mysql.connector import errorcode
 from .listage_livre import listage_livre
 
@@ -14,6 +15,8 @@ config = {
     'client_flags': [mysql.connector.ClientFlag.SSL],
     'ssl_ca': os.environ['ssl_ca']
 }
+stockage = os.environ['stockage']
+conteneur = os.environ['conteneur']
 
 
 def connection():
@@ -31,12 +34,17 @@ def connection():
             logging.error("Database does not exist")
         else:
             logging.error(err)
+        sys.exit(1)
     else:
         cursor = conn.cursor()
         return conn, cursor
 
 
 def create_table(cursor):
+    """
+    Création des tables SI elles n'existent pas
+    pour le traitement des informations
+    """
     cursor.execute(
         """CREATE TABLE IF NOT EXISTS livres (
             ID INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -49,19 +57,21 @@ def create_table(cursor):
         """CREATE TABLE IF NOT EXISTS mots (
             ID INTEGER AUTO_INCREMENT PRIMARY KEY,
             Titre VARCHAR(255),
-            Words VARCHAR(255),
+            Words TEXT,
             Total INTEGER);""")
 
 
 def insert_bdd(title, myblob):
     """
-    Insert dans la base de donnée les informations voulues :
-        id : Valeur auto-incrémenter (Primary Key)
+    Insert dans la table livres les informations voulues :
         Titre : titre du livre
-        Infos : Dictionnaire de tous les mots
-                avec le nombre d'apparition
         Total : Nombre de mots dans le fichier
         URL_BLOB = url du blob
+    --------------------------------------------------------------------------
+    Insert dans la table mots les informations voulues :
+        Titre : titre du livre
+        Words : Liste des mots du fichier
+        Total : Nombre de fois qu'ils se répètent
     """
     logging.info("Début de la connexion à la database")
     conn, cursor = connection()
@@ -71,30 +81,29 @@ def insert_bdd(title, myblob):
     # logging.info("Finished dropping table (if existed).")
 
     # Create table
-    logging.info("Début de la création de la table")
-
+    logging.info("Début de la création des tables")
+    create_table(cursor)
+    logging.info("Fin de la création des tables")
+    
     # Récupération des infos dans la fonction listage_livre
     logging.info(f"Récupération des infos sur le livre {title}")
     Infos, Total = listage_livre(myblob)
     logging.info(f"Fin de la récupération des infos sur le livre {title}")
 
-
     # Insert some data into table
-    url = "https://stockageaskd.blob.core.windows.net/storageblobaskd/"
+    url = "https://"+stockage+".blob.core.windows.net/"+conteneur+"/"
 
     logging.info("Début insertion du livre dans la table 'livres'")
-
-    cursor.execute("""INSERT INTO livres (
-        Titre, Total, URL_BLOB)
+    cursor.execute(
+        """INSERT INTO livres (Titre, Total, URL_BLOB)
         VALUES (%s, %s, %s);""", (title, Total, url+title+".txt"))
     logging.info("Inserted done")
 
     logging.info("Début insertion du livre dans la table 'mots'")
     for key, value in Infos.items():
-        cursor.execute("""INSERT INTO mots (
-            Titre, Words, Total)
+        cursor.execute(
+            """INSERT INTO mots (Titre, Words, Total)
             VALUES (%s, %s, %s);""", (title, key, value))
-
     logging.info("Inserted done")
 
     # Cleanup
@@ -104,4 +113,3 @@ def insert_bdd(title, myblob):
     conn.close()
     logging.info("Close Database")
     logging.info("Done.")
-
