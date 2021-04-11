@@ -18,8 +18,8 @@ def listage_livre(myblob):
     logging.info(f"Lecture de l'objet {myblob}")
 
     # Décodage du blob pour permettre son traitement
-    file = codecs.decode(file, 'utf-8')
-    logging.info("Décodage du blob en utf-8 pour traitement")
+    file = codecs.decode(file, 'latin-1')
+    logging.info("Décodage du blob en latin-1 pour traitement")
 
     # Split avec regex sur tous les signes de ponctuation
     file = re.split(r'\W', file)
@@ -34,7 +34,7 @@ def listage_livre(myblob):
     for char in file:
         char = char.lower()
 
-        # Permet de retirer les accents des mots
+        # Permet de retirer les accents des mots (merci internet)
         char = ''.join(
             (c for c in unicodedata.normalize('NFD', char)
                 if unicodedata.category(c) != 'Mn')
